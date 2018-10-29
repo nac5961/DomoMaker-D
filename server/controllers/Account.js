@@ -9,11 +9,6 @@ const loginPage = (req, res) => {
   res.render('login', { csrfToken: req.csrfToken() });
 };
 
-// Function to display the signup page
-const signupPage = (req, res) => {
-  res.render('signup', { csrfToken: req.csrfToken() });
-};
-
 // Function to display the home page when a user logs out
 const logout = (req, res) => {
 	// Remove a user's sessions so that the server knows the user isn't logged in
@@ -104,11 +99,26 @@ const signup = (request, response) => {
   });
 };
 
+// Function to setup requesting tokens when our react
+// app makes a request.
+// This will give the app a one-time token when it
+// needs to submit a form.
+const getToken = (request, response) => {
+  const req = request;
+  const res = response;
+
+  const csrfJSON = {
+    csrfToken: req.csrfToken(),
+  };
+
+  res.json(csrfJSON);
+};
+
 // Export functions
 module.exports = {
   loginPage,
   login,
   logout,
-  signupPage,
   signup,
+  getToken,
 };

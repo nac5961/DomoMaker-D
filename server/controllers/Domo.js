@@ -57,8 +57,26 @@ const makeDomo = (req, res) => {
   return savePromise;
 };
 
+// Function to send a JSON response with the domos back to the user
+const getDomos = (request, response) => {
+  const req = request;
+  const res = response;
+
+  return Domo.DomoModel.findByOwner(req.session.account._id, (err, docs) => {
+		// Process errors
+    if (err) {
+      console.log(err);
+      return res.status(400).json({ error: 'An error occurred' });
+    }
+
+		// Send the domo data in the response
+    return res.json({ domos: docs });
+  });
+};
+
 // Export functions
 module.exports = {
   makerPage,
   make: makeDomo,
+  getDomos,
 };
